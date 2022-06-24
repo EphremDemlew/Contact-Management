@@ -1,0 +1,25 @@
+{
+  "name": "eph-contact",
+  "version": "1.0.0",
+  "description": "contact managemnent page",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EphremDemlew/Contact-Management.git"
+  },
+  "author": "Ephrem Demlew",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EphremDemlew/Contact-Management/issues"
+  },
+  "homepage": "https://github.com/EphremDemlew/Contact-Management#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "morgan": "^1.10.0"
+  }
+}
