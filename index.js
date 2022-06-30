@@ -49,8 +49,7 @@ app.post('/signup', async (req, res) => {
   // get request input
   const { email, name, thumbnail } = req.body.input;
 
-  const salt = await bcrypt.genSalt();
-  const password = await bcrypt.hash(req.body.input.password, salt);
+  const password = await bcrypt.hash(req.body.input.password, 10);
 
   // run some business logic
 
@@ -75,7 +74,7 @@ const tokenContents = {
   },
   exp:Math.floor(Date.now() /1000) + (24*60*60)
 }
-  const token = jwt.sign(tokenContents ,'E6kld2fjg4h5sk5d6gk67js7k23fdsghbk' );
+  const token = jwt.sign(tokenContents ,process.env.ENCRYPTION_KEY);
   // success
   return res.json({
     ...data.insert_user_one,
@@ -83,6 +82,83 @@ const tokenContents = {
   })
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+const LOGIN_HASURA_OPERATION = `
+query login($email: String!, $password: String!) {
+  user(where: {email: {_eq: $email}, password: {_eq: $password}}) {
+    email
+    name
+    thumbnail
+    password
+    contacts {
+      name
+      thumbnail
+    }
+  }
+}
+`;
+
+// execute the parent operation in Hasura
+const loginexecute = async (variables) => {
+  const fetchResponse = await fetch(
+    "http://localhost:8080/v1/graphql",
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        query: LOGIN_HASURA_OPERATION,
+        variables
+      })
+    }
+  );
+  const data = await fetchResponse.json();
+  console.log('DEBUG: ', data);
+  return data;
+};
+  
+
+// Request Handler
+app.post('/login', async (req, res) => {
+
+  // get request input
+  const { email, password } = req.body.input;
+  console.log(password , email);
+
+  // run some business logic
+
+  
+  // execute the Hasura operation
+  const { data, errors } = await loginexecute({ email, password });
+
+  const user = data.user[0];
+  if (!user) return res.status(401).json({ message: "Invalid user by ephrem" });
+
+  // const validPassword = await bcrypt.compare(password, user.password);
+  //   if (!validPassword) return res.status(401).send({ message: "Invalid password by ephrem" });
+
+  // if Hasura operation errors, then throw error
+  if (errors) {
+    return res.status(400).json(errors[0])
+  }
+
+  // success
+  return res.json({
+    ...data.user,
+    email
+  })
+
+});
+
 
 
 const port = process.env.PORT || 5000;

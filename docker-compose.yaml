@@ -20,14 +20,15 @@ services:
       ## postgres database to store Hasura metadata
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
       ## this env var can be used to add the above postgres database to Hasura as a data source. this can be removed/updated based on your needs
-      PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/posposusesusestgresusesusestgres
       ## enable the console served by server
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
       ## enable debugging mode. It is recommended to disable this in production
       HASURA_GRAPHQL_DEV_MODE: "true"
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       ## uncomment next line to set an admin secret
-      # HASURA_GRAPHQL_ADMIN_SECRET: admin_secret
+      HASURA_GRAPHQL_ADMIN_SECRET: admin_secret
+      HASURA_GRAPHQL_JWT_SECRET: {"type": "RS512", "key": "-----BEGIN CERTIFICATE-----\nMIIDDTCCAfWgAwIBAgIJBtN2V92Ko532MA0GCSqGSIb3DQEBCwUAMCQxIjAgBgNV\nBAMTGWRldi16ajgxcWkwdC51cy5hdXRoMC5jb20wHhcNMjIwNjI5MDgwMjE1WhcN\nMzYwMzA3MDgwMjE1WjAkMSIwIAYDVQQDExlkZXYtemo4MXFpMHQudXMuYXV0aDAu\nY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAy1GmzQqEa8aRi9bn\nGQAWIVBaYgiHc3MBBHgAMmHWcPp+cLXrNrxNBQS8uiTdVLdWYP/JYjrra08vSkX3\naqm+4HUJAVU2cTiKk3dbcnGaU27/q0ojikZNMFdEIq7SRGRD3OzrwOXc6xXC/toE\nkuIbuWuexMPRBeSJxtwqF9p4PBojPkV0x7TSK3fx4ofYObUvnL9HxOv/mlFfVBlB\nxMDVEgq1Uqj8OyuOV90+JTGrqAoIHA0FbHJMcBIpq+W9AWbKssfIUuzHppRjzeH7\nCeEyur5BgqH2Un5AzJOM0CYlHsa0xV4j0LYeywGQA2WLT5Fy8abGtveva0Fh2J6z\nlsVeuQIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBT6PyMLVMTL\nJCcr0EyqLOVny+RETDAOBgNVHQ8BAf8EBAMCAoQwDQYJKoZIhvcNAQELBQADggEB\nAJDHhJujlsvSKvv4Nivci5zLvP03XNmC71+nU5rNQYj9yX5umPQcEq1akoG+m7MO\nodLiSgcpC4a8G1JAnPMR7M9L9N6aR3CbMZh0dggJyW26zaa2HQp3LBtf0iAimS6o\nBf1w2OnB1vuHun6wTrG6URMxESY/MqpIupb/ztiE1rRXIpIKm2WL6O0m5NYAv4zQ\nAd7HFZ/zVPAIrQrABBXsz83TjSdBX+wKyMtS93UIzEi9ZYxzOaTNgZjtF/dETN74\nQU4AwhVdqZajtIZ5D9SX5djIDyC/p+RukXRyKcGxpLo+pHTCHqDTzFH5fifshPBa\nXdMoXuWtyz6/G/+J3CK9prU=\n-----END CERTIFICATE-----"}
 
 
 volumes:
