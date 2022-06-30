@@ -9,7 +9,7 @@ dotenv.config();
 const cors = require('cors')
 const app = express()
 app.use(express.json())
-app.use(morgan('combined'))
+// app.use(morgan('combined'))
 app.use(cors())
 
 
@@ -84,15 +84,7 @@ const tokenContents = {
 });
 
 
-
-
-
-
-
-
-
-
-
+// .........The Login Handleer below .........
 
 const LOGIN_HASURA_OPERATION = `
 query login($email: String!, $password: String!) {
