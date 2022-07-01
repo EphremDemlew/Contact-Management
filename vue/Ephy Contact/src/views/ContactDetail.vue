@@ -83,7 +83,5 @@ import router from "../router/router";
 
 const navigate = () => {
   router.push("/home");
-
-  console.log("Clickw");
 };
 </script>
