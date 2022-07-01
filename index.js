@@ -92,7 +92,7 @@ query login($email: String!, $password: String!) {
     email
     name
     thumbnail
-    password
+    passwordconnection
     contacts {
       name
       thumbnail
@@ -117,7 +117,6 @@ const loginexecute = async (variables) => {
   console.log('DEBUG: ', data);
   return data;
 };
-  
 
 // Request Handler
 app.post('/login', async (req, res) => {
@@ -151,6 +150,7 @@ app.post('/login', async (req, res) => {
 
 });
 
+// .........The Login Handleer above .........
 
 
 const port = process.env.PORT || 5000;
