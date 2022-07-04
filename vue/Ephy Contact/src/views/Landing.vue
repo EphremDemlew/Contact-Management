@@ -12,8 +12,7 @@
             class="title-font sm:text-4xl text-3xl mb-4 font-medium text-white font-serif"
           >
             Ephy Contact Managment
-            <span class="text-red-500">!!&#9998; </span>
-            <br class="hidden lg:inline-block" /><span> ✍</span>
+            <span class="text-red-500">!&#9998; </span>
           </h1>
           <p class="mb-8 leading-relaxed">
             Add contacts and mange them with an easy to look ast and beautifull
@@ -23,9 +22,9 @@
             <div class="ml-4">
               <button
                 type="button"
-                class="text-white bg-indigo-500 py-2 px-10 hover:text-white hover:bg-indigo-600 text-lg focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500"
+                class="text-white bg-indigo-500 py-2 px-10 hover:bg-indigo-600 text-lg focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-white"
               >
-                📑 View Users&nbsp;
+                📑 View Users
                 <svg
                   class="w-5 h-5"
                   fill="currentColor"
@@ -41,16 +40,18 @@
               </button>
             </div>
             <div class="mt-3">
-              <button
+              <router-link
+                to="/signup"
                 class="ml-4 inline-flex text-gray-400 bg-gray-800 border-0 py-2 px-6 focus:outline-none hover:bg-gray-700 hover:text-white rounded text-lg"
               >
                 Sign Up
-              </button>
-              <button
+              </router-link>
+              <router-link
+                to="/login"
                 class="ml-4 inline-flex text-gray-400 bg-gray-800 border-0 py-2 px-6 focus:outline-none hover:bg-gray-700 hover:text-white rounded text-lg"
               >
                 Login
-              </button>
+              </router-link>
             </div>
           </div>
         </div>

@@ -1,8 +1,12 @@
-const express = require('express')
+
+const express =require("express") ;
 const dotenv = require('dotenv')
 const morgan = require('morgan')
 const bcrypt = require('bcryptjs')
 var jwt = require('jsonwebtoken');
+const  { client } = require( "./client");
+
+// const generateJWT  = require( "./jwt.js");
 
 dotenv.config();
 
@@ -30,11 +34,13 @@ const execute = async (variables) => {
   const fetchResponse = await fetch(
     "http://localhost:8080/v1/graphql",
     {
+      headers: { "x-hasura-admin-secret": "admin_secret" },
       method: 'POST',
       body: JSON.stringify({
         query: HASURA_OPERATION,
         variables
-      })
+      }),
+
     }
   );
   const data = await fetchResponse.json();
@@ -74,12 +80,21 @@ const tokenContents = {
   },
   exp:Math.floor(Date.now() /1000) + (24*60*60)
 }
-  const token = jwt.sign(tokenContents ,process.env.ENCRYPTION_KEY);
+  const token = jwt.sign(tokenContents ,process.env.HASURA_JWT_SECRET_KEY);
   // success
   return res.json({
     ...data.insert_user_one,
     token:token
   })
+  // return res.send({...data.insert_user_one,
+  //   token: generateJWT(
+  //   "user",
+  //   ["user"],
+  //     {
+  //       "X-Hasura-User-Id": userId,
+  //     },
+  //   ),
+  // });
 
 });
 
@@ -106,6 +121,7 @@ const loginexecute = async (variables) => {
   const fetchResponse = await fetch(
     "http://localhost:8080/v1/graphql",
     {
+      headers: { "x-hasura-admin-secret": "admin_secret" },
       method: 'POST',
       body: JSON.stringify({
         query: LOGIN_HASURA_OPERATION,
@@ -151,6 +167,7 @@ app.post('/login', async (req, res) => {
 });
 
 // .........The Login Handleer above .........
+
 
 
 const port = process.env.PORT || 5000;

@@ -4,7 +4,7 @@
   <!-- Start -->
   <section class="text-gray-400 bg-gray-900 body-font">
     <div class="container px-5 py-24 mx-auto">
-      <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-0 -mt-4">
+      <div class="flex flex-wrap sm:-m-4 mx-4 -mb-0 -mt-4">
         <div
           v-for="users in result.all_users"
           :key="users.id"
@@ -17,28 +17,30 @@
               src="../assets/undraw_personal_info_re_ur1n.svg"
             />
           </div>
-          <h2 class="text-xl font-medium title-font text-white">
-            {{ users.id }}
-          </h2>
-          <p class="text-base leading-relaxed mt-2">
-            {{ users.name }}
-          </p>
-          <router-link
-            to="/"
-            class="text-indigo-400 inline-flex items-center mt-3"
-            >See More
-            <svg
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              class="w-4 h-4 ml-2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg>
-          </router-link>
+          <div class="border-x-8 border-b-8 rounded-lg border-indigo-800">
+            <h2 class="text-xl font-medium title-font text-white">
+              {{ users.id }}
+            </h2>
+            <p class="text-base leading-relaxed mb-2">
+              {{ users.name }}
+            </p>
+            <router-link
+              to="/"
+              class="text-indigo-400 inline-flex items-center my-3"
+              >See More
+              <svg
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                class="w-4 h-4 ml-2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
