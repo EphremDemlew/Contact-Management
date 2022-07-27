@@ -1,23 +1,21 @@
-
-const express =require("express") ;
-const dotenv = require('dotenv')
-const morgan = require('morgan')
-const bcrypt = require('bcryptjs')
-var jwt = require('jsonwebtoken');
-const  { client } = require( "./client");
+const express = require("express");
+const dotenv = require("dotenv");
+const morgan = require("morgan");
+const bcrypt = require("bcryptjs");
+var jwt = require("jsonwebtoken");
+const { client } = require("./client");
 
 // const generateJWT  = require( "./jwt.js");
 
 dotenv.config();
 
-const cors = require('cors')
-const app = express()
-app.use(express.json())
+const cors = require("cors");
+const app = express();
+app.use(express.json());
 // app.use(morgan('combined'))
-app.use(cors())
+app.use(cors());
 
-
-const fetch = require("node-fetch")
+const fetch = require("node-fetch");
 
 const HASURA_OPERATION = `
 mutation signup($email: String!, $name: String!, $password: String!, $thumbnail: String!) {
@@ -31,27 +29,21 @@ mutation signup($email: String!, $name: String!, $password: String!, $thumbnail:
 
 // execute the parent operation in Hasura
 const execute = async (variables) => {
-  const fetchResponse = await fetch(
-    "http://localhost:8080/v1/graphql",
-    {
-      headers: { "x-hasura-admin-secret": "admin_secret" },
-      method: 'POST',
-      body: JSON.stringify({
-        query: HASURA_OPERATION,
-        variables
-      }),
-
-    }
-  );
+  const fetchResponse = await fetch("http://localhost:8080/v1/graphql", {
+    headers: { "x-hasura-admin-secret": "admin_secret" },
+    method: "POST",
+    body: JSON.stringify({
+      query: HASURA_OPERATION,
+      variables,
+    }),
+  });
   const data = await fetchResponse.json();
-  console.log('DEBUG: ', data);
+  console.log("DEBUG: ", data);
   return data;
 };
-  
 
 // Request Handler
-app.post('/signup', async (req, res) => {
-
+app.post("/signup", async (req, res) => {
   // get request input
   const { email, name, thumbnail } = req.body.input;
 
@@ -64,28 +56,28 @@ app.post('/signup', async (req, res) => {
 
   // if Hasura operation errors, then throw error
   if (errors) {
-    return res.status(400).json(errors[0])
+    return res.status(400).json(errors[0]);
   }
 
-const tokenContents = {
-  sub:data.insert_user_one.id.toString(),
-  name:name,
-  iat:Date.now()/1000,
-  iss:'https://myapp.com/',
-  "https://hasura.io/jwt/claims":{
-    "x-hasura-allowed-roles":["user" , "anonymous"],
-    "x-hasura-user-id":data.insert_user_one.id.toString(),
-    "x-hasura-default-role":"user",
-    "x-hasura-role":"user"
-  },
-  exp:Math.floor(Date.now() /1000) + (24*60*60)
-}
-  const token = jwt.sign(tokenContents ,process.env.HASURA_JWT_SECRET_KEY);
+  const tokenContents = {
+    sub: data.insert_user_one.id.toString(),
+    name: name,
+    iat: Date.now() / 1000,
+    iss: "https://myapp.com/",
+    "https://hasura.io/jwt/claims": {
+      "x-hasura-allowed-roles": ["user", "anonymous"],
+      "x-hasura-user-id": data.insert_user_one.id.toString(),
+      "x-hasura-default-role": "user",
+      "x-hasura-role": "user",
+    },
+    exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
+  };
+  const token = jwt.sign(tokenContents, process.env.HASURA_JWT_SECRET_KEY);
   // success
   return res.json({
     ...data.insert_user_one,
-    token:token
-  })
+    token: token,
+  });
   // return res.send({...data.insert_user_one,
   //   token: generateJWT(
   //   "user",
@@ -95,9 +87,7 @@ const tokenContents = {
   //     },
   //   ),
   // });
-
 });
-
 
 // .........The Login Handleer below .........
 
@@ -118,32 +108,27 @@ query login($email: String!, $password: String!) {
 
 // execute the parent operation in Hasura
 const loginexecute = async (variables) => {
-  const fetchResponse = await fetch(
-    "http://localhost:8080/v1/graphql",
-    {
-      headers: { "x-hasura-admin-secret": "admin_secret" },
-      method: 'POST',
-      body: JSON.stringify({
-        query: LOGIN_HASURA_OPERATION,
-        variables
-      })
-    }
-  );
+  const fetchResponse = await fetch("http://localhost:8080/v1/graphql", {
+    headers: { "x-hasura-admin-secret": "admin_secret" },
+    method: "POST",
+    body: JSON.stringify({
+      query: LOGIN_HASURA_OPERATION,
+      variables,
+    }),
+  });
   const data = await fetchResponse.json();
-  console.log('DEBUG: ', data);
+  console.log("DEBUG: ", data);
   return data;
 };
 
 // Request Handler
-app.post('/login', async (req, res) => {
-
+app.post("/login", async (req, res) => {
   // get request input
   const { email, password } = req.body.input;
-  console.log(password , email);
+  console.log(password, email);
 
   // run some business logic
 
-  
   // execute the Hasura operation
   const { data, errors } = await loginexecute({ email, password });
 
@@ -155,22 +140,19 @@ app.post('/login', async (req, res) => {
 
   // if Hasura operation errors, then throw error
   if (errors) {
-    return res.status(400).json(errors[0])
+    return res.status(400).json(errors[0]);
   }
 
   // success
   return res.json({
     ...data.user,
-    email
-  })
-
+    email,
+  });
 });
 
 // .........The Login Handleer above .........
 
-
-
 const port = process.env.PORT || 5000;
-app.listen(port , () =>{
-console.log(`App started on port ${port}`);
-})
+app.listen(port, () => {
+  console.log(`App started on port ${port}`);
+});
